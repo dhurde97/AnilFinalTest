@@ -1,0 +1,82 @@
+mysql> select * from employee;
++--------+----------+--------+---------+------------+-----------+
+| Emp_id | Emp_Name | Salary | Dept_id | Manager_id | phone     |
++--------+----------+--------+---------+------------+-----------+
+|     11 | yoshi    | 730000 |       1 |         12 | 112827117 |
+|     12 | jhon     | 73000  |       2 |         13 | 11282717  |
+|     13 | joe      | 53000  |       3 |         14 | 11282722  |
+|      4 | jenny    | 730000 |      12 |          4 | 112827117 |
++--------+----------+--------+---------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from department;
++---------+-------------+
+| Dept_id | Dept_Name   |
++---------+-------------+
+|       1 | development |
+|       2 | testing     |
+|       3 | planning    |
+|      12 | finance     |
++---------+-------------+
+4 rows in set (0.00 sec)
+
+
+
+question 1:
+select Employee.Emp_Name as Employee_Name,Department.Dept_Name as Department_Name from Employee inner join Department on Employee.Dept_id=Department.Dept_id where Department.Dept_id in (1,2,3);
++---------------+-----------------+
+| Employee_Name | Department_Name |
++---------------+-----------------+
+| yoshi         | development     |
+| jhon          | testing         |
+| joe           | planning        |
++---------------+-----------------+
+3 rows in set (0.01 sec)
+
+
+
+
+question (2):
+mysql> select Emp_id,(((Salary/30)*40)/100)as basic_pay from Employee;
++--------+-------------------+
+| Emp_id | basic_pay         |
++--------+-------------------+
+|     11 | 9733.333333333332 |
+|     12 | 973.3333333333335 |
+|     13 | 706.6666666666667 |
+|      4 | 9733.333333333332 |
++--------+-------------------+
+4 rows in set (0.00 sec)
+
+
+ question 3:
+select Emp_Name,Emp_id from Employee where MOD (Emp_id, 2)!= 0;
++----------+--------+
+| Emp_Name | Emp_id |
++----------+--------+
+| yoshi    |     11 |
+| joe      |     13 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+
+question (4):
+ select (Salary/count(Dept_id)) from Employee group by Dept_id;
++-------------------------+
+| (Salary/count(Dept_id)) |
++-------------------------+
+|                  730000 |
+|                   73000 |
+|                   53000 |
+|                  730000 |
++-------------------------+
+4 rows in set (0.01 sec)
+
+Question (5):
+select max(Salary) from Employee where Salary<(select max(Salary) from Employee);
++-------------+
+| max(Salary) |
++-------------+
+| 73000       |
++-------------+
+1 row in set (0.01 sec)
